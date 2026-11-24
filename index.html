@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen — reconstruction studio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23141210'/%3E%3Cpath d='M16 5v22' stroke='%23c4491d' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23e4ddd0'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <p class="kicker">Reconstruction studio</p>
+        <h1>Lumen</h1>
+      </div>
+      <div class="identity" id="identity">
+        <p class="file" id="file-name">RRDB_ESRGAN_x4.pth</p>
+        <p class="status" id="status"><span class="dot"></span><span id="status-text">Fetching weights</span></p>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="stage" aria-label="Viewing table">
+        <div class="table" id="table">
+          <div class="empty" id="empty">
+            <p class="empty-kicker">No frame on the table</p>
+            <h2>Place a photograph.</h2>
+            <p>PNG, JPEG, or WebP. The network writes it back at four times the width and four times the height. The photograph stays in this browser.</p>
+          </div>
+          <div class="preview" id="preview" hidden>
+            <img id="source-view" alt="Source frame">
+          </div>
+          <div class="compare" id="compare" hidden>
+            <img id="after" alt="Reconstruction at four times the working frame">
+            <div class="clip" id="clip">
+              <img id="before" alt="">
+            </div>
+            <span class="tag tag-source">Source</span>
+            <span class="tag tag-result">×4</span>
+            <label class="split">
+              <span class="sr">Compare source and reconstruction</span>
+              <input id="split-range" type="range" min="0" max="1000" value="560">
+            </label>
+          </div>
+          <div class="progress" id="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+            <p id="progress-label">Fetching weights</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="dock">
+        <section>
+          <h2>Source</h2>
+          <label class="drop" id="drop">
+            <input id="file" type="file" accept="image/png,image/jpeg,image/webp">
+            <span class="drop-title" id="drop-title">Drop a frame, or browse</span>
+            <span class="drop-meta" id="drop-meta">Nothing selected</span>
+          </label>
+          <button class="text" id="sample" type="button">Use the sample frame</button>
+        </section>
+
+        <section>
+          <div class="row">
+            <h2>Working edge</h2>
+            <span class="value" id="edge-value">128 px</span>
+          </div>
+          <input id="edge" type="range" min="96" max="320" step="32" value="128">
+          <p class="note">The long side is fit to this length before reconstruction. Output is exactly four times the working frame. Shorter edges finish sooner.</p>
+        </section>
+
+        <section class="actions">
+          <button class="primary" id="run" type="button" disabled>Reconstruct ×4</button>
+          <button class="secondary" id="save" type="button" hidden>Save PNG</button>
+          <p class="alert" id="alert" hidden></p>
+          <dl class="figures" id="figures">
+            <div><dt>Working</dt><dd id="fig-in">—</dd></div>
+            <div><dt>Output</dt><dd id="fig-out">—</dd></div>
+            <div><dt>Time</dt><dd id="fig-time">—</dd></div>
+          </dl>
+        </section>
+
+        <section class="model">
+          <h2>Weights</h2>
+          <dl>
+            <div><dt>File</dt><dd>RRDB_ESRGAN_x4.pth</dd></div>
+            <div><dt>Network</dt><dd>23 RRDB blocks</dd></div>
+            <div><dt>Width</dt><dd>64 features, 32 growth</dd></div>
+            <div><dt>Scale</dt><dd>Two nearest ×2 stages</dd></div>
+            <div><dt>Parameters</dt><dd id="param-count">16,697,987</dd></div>
+            <div><dt>Where</dt><dd id="where">This browser</dd></div>
+          </dl>
+          <p class="note">Generator only. Trained on MATLAB bicubic downscaling, so other blur can leave patterns. Nothing is uploaded.</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
